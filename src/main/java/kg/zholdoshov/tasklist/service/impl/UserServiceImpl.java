@@ -1,14 +1,16 @@
 package kg.zholdoshov.tasklist.service.impl;
 
 import kg.zholdoshov.tasklist.domain.user.User;
+import kg.zholdoshov.tasklist.repository.UserRepository;
 import kg.zholdoshov.tasklist.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private UserRepository userRepository;
     @Override
     public User getById(Long id) {
-        return null;
+        return userRepository.findById(id).orElseThrow(null);
     }
 
     @Override
