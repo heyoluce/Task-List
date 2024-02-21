@@ -20,11 +20,14 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void update(User user) {
-
     }
 
     @Override
     public void create(User user) {
+    }
+
+    @Override
+    public void delete(Long id) {
 
     }
 

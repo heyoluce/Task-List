@@ -1,6 +1,7 @@
 package kg.zholdoshov.tasklist.service.impl;
 
 import kg.zholdoshov.tasklist.domain.exception.ResourceNotFoundException;
+import kg.zholdoshov.tasklist.domain.task.Status;
 import kg.zholdoshov.tasklist.domain.task.Task;
 import kg.zholdoshov.tasklist.repository.TaskRepository;
 import kg.zholdoshov.tasklist.service.TaskService;
@@ -9,10 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
+
     @Override
     @Transactional(readOnly = true)
     public Task getById(Long id) {
@@ -21,22 +24,30 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> getAllByUserId(Long id) {
-        return null;
+    @Transactional(readOnly = true)
+    public List<Task> getAllByUserId(Long userId) {
+        return taskRepository.findAllByUserId(userId);
     }
 
     @Override
     public Task update(Task task) {
-        return null;
+        if (task.getStatus() == null) {
+            task.setStatus(Status.TODO);
+        }
+        taskRepository.update(task);
+        return task;
     }
 
     @Override
-    public Task create(Task task, Long id) {
-        return null;
+    public Task create(Task task, Long userId) {
+        task.setStatus(Status.TODO);
+        taskRepository.create(task);
+        taskRepository.assignToUserById(task.getId(), userId);
+        return task;
     }
 
     @Override
     public void delete(Long id) {
-
+        taskRepository.delete(id);
     }
 }
