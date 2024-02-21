@@ -2,7 +2,6 @@ package kg.zholdoshov.tasklist.domain.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.apache.logging.log4j.message.Message;
 
 import java.util.Map;
 
