@@ -2,6 +2,7 @@ package kg.zholdoshov.tasklist.web.security;
 
 import kg.zholdoshov.tasklist.domain.user.User;
 import kg.zholdoshov.tasklist.service.UserService;
+import kg.zholdoshov.tasklist.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

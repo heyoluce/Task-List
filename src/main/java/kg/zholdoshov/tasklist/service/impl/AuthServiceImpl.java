@@ -1,5 +1,7 @@
 package kg.zholdoshov.tasklist.service.impl;
 
+import jakarta.security.auth.message.AuthException;
+import kg.zholdoshov.tasklist.domain.exception.ResourceMappingException;
 import kg.zholdoshov.tasklist.domain.user.User;
 import kg.zholdoshov.tasklist.service.AuthService;
 import kg.zholdoshov.tasklist.service.UserService;

@@ -104,6 +104,7 @@ public class TaskRepositoryImpl implements TaskRepository {
         try {
             Connection connection = dataSourceConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE);
+
             statement.setString(1, task.getTitle());
             if (task.getDescription() == null ) {
                 statement.setNull(2, Types.VARCHAR);
@@ -111,6 +112,14 @@ public class TaskRepositoryImpl implements TaskRepository {
             else {
                 statement.setString(2, task.getDescription());
             }
+            if (task.getExpirationDate() == null ) {
+                statement.setNull(3, Types.TIMESTAMP);
+            }
+            else {
+                statement.setTimestamp(3, Timestamp.valueOf(task.getExpirationDate()));
+            }
+            statement.setString(4, task.getStatus().name());
+            statement.setLong(5, task.getId());
             statement.executeUpdate();
         } catch(SQLException throwable) {
             throw new ResourceMappingException("Error while updating task");
@@ -119,11 +128,42 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public void create(Task task) {
-
+        try {
+            Connection connection = dataSourceConfig.getConnection();
+            PreparedStatement statement = connection.prepareStatement(CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
+            statement.setString(1, task.getTitle());
+            if (task.getDescription() == null ) {
+                statement.setNull(2, Types.VARCHAR);
+            }
+            else {
+                statement.setString(2, task.getDescription());
+            }
+            if (task.getExpirationDate() == null ) {
+                statement.setNull(3, Types.TIMESTAMP);
+            }
+            else {
+                statement.setTimestamp(3, Timestamp.valueOf(task.getExpirationDate()));
+            }
+            statement.setString(4, task.getStatus().name());
+            statement.executeUpdate();
+            try(ResultSet rs = statement.getGeneratedKeys()) {
+                rs.next();
+                task.setId(rs.getLong(1));
+            }
+        } catch(SQLException throwable) {
+            throw new ResourceMappingException("Error while creating task");
+        }
     }
 
     @Override
     public void delete(Long id) {
-
+        try {
+            Connection connection = dataSourceConfig.getConnection();
+            PreparedStatement statement = connection.prepareStatement(DELETE, PreparedStatement.RETURN_GENERATED_KEYS);
+            statement.setLong(1, id);
+            statement.executeUpdate();
+        } catch(SQLException throwable) {
+            throw new ResourceMappingException("Error while deleting task");
+        }
     }
 }
