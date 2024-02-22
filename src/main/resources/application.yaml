@@ -14,3 +14,5 @@ security:
       secret: saopdjaspodasjASODJASOPDJASPODJASIODHASUIFHAIUDasjdhasdjhasjkdhasSDAS
       access: 3600000
       refresh: 259200000
+mybatis:
+  mapper-locations: classpath:/mybatis/mapper/*.xml

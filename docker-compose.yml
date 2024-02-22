@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres:16'
+    container_name: 'postgres'
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=postgres'
+      - 'POSTGRES_DB=tasklist'
+
+  app:
+    build: ./
+    container_name: "java-app"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres  # Это гарантирует, что контейнер вашего приложения будет запущен после контейнера PostgreSQL
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/tasklist'  # Указываем URL для подключения к базе данных PostgreSQL
+      - 'SPRING_DATASOURCE_USERNAME=postgres'  # Указываем имя пользователя для подключения к базе данных
+      - 'SPRING_DATASOURCE_PASSWORD=postgres'  # Указываем пароль для подключения к базе данных
+
+
+
