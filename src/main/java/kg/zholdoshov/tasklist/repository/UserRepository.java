@@ -2,9 +2,12 @@ package kg.zholdoshov.tasklist.repository;
 
 import kg.zholdoshov.tasklist.domain.user.Role;
 import kg.zholdoshov.tasklist.domain.user.User;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Optional;
 
+@Mapper
 public interface UserRepository {
     Optional<User> findById(Long id);
 
@@ -14,8 +17,9 @@ public interface UserRepository {
     void create(User user);
 
     void delete(Long id);
-    void insertUserRole(Long userId, Role role);
 
-    boolean isTaskOwner(Long userId, Long taskId);
+    void insertUserRole(@Param("userId") Long userId, @Param("role") Role role);
+
+    boolean isTaskOwner(@Param("userId") Long userId, @Param("role") Long taskId);
 
 }

@@ -1,5 +1,6 @@
 package kg.zholdoshov.tasklist.web.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.zholdoshov.tasklist.domain.user.User;
 import kg.zholdoshov.tasklist.service.AuthService;
 import kg.zholdoshov.tasklist.service.UserService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 @Validated
+@Tag(name = "Auth Controller", description = "Auth API")
 public class AuthController {
     private final AuthService authService;
     private final UserService userService;

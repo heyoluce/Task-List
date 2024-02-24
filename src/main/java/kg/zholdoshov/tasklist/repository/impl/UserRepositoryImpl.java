@@ -7,14 +7,14 @@ import kg.zholdoshov.tasklist.repository.DataSourceConfig;
 import kg.zholdoshov.tasklist.repository.UserRepository;
 import kg.zholdoshov.tasklist.repository.mappers.UserRowMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
-@Repository
+
+//@Repository
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
     private final DataSourceConfig dataSourceConfig;

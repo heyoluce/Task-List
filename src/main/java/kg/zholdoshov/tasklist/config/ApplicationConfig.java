@@ -1,5 +1,10 @@
 package kg.zholdoshov.tasklist.config;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import kg.zholdoshov.tasklist.web.security.JwtTokenFilter;
 import kg.zholdoshov.tasklist.web.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +52,8 @@ public class ApplicationConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
                 .anonymous(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session
@@ -59,4 +66,27 @@ public class ApplicationConfig {
 
         return httpSecurity.build();
     }
+
+    @Bean
+    public OpenAPI openAPI() {
+        return new OpenAPI()
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                .components(
+                        new Components()
+                                .addSecuritySchemes("bearerAuth",
+                                        new SecurityScheme()
+                                                .type(SecurityScheme.Type.HTTP)
+                                                .scheme("bearer")
+                                                .bearerFormat("JWT")
+                                )
+                )
+                .info(new Info()
+                        .title("Task API")
+                        .description("Demo Spring Boot application")
+                        .version("1.0")
+                );
+
+    }
+
+
 }

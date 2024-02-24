@@ -6,13 +6,12 @@ import kg.zholdoshov.tasklist.repository.DataSourceConfig;
 import kg.zholdoshov.tasklist.repository.TaskRepository;
 import kg.zholdoshov.tasklist.repository.mappers.TaskRowMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+//@Repository
 @RequiredArgsConstructor
 public class TaskRepositoryImpl implements TaskRepository {
 
