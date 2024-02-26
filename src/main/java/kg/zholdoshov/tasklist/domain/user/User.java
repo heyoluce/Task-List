@@ -6,11 +6,12 @@ import jakarta.persistence.Id;
 import kg.zholdoshov.tasklist.domain.task.Task;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
 @Data
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

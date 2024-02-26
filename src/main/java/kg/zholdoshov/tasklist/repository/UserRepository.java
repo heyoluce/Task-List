@@ -20,6 +20,6 @@ public interface UserRepository {
 
     void insertUserRole(@Param("userId") Long userId, @Param("role") Role role);
 
-    boolean isTaskOwner(@Param("userId") Long userId, @Param("role") Long taskId);
+    boolean isTaskOwner(@Param("userId") Long userId, @Param("taskId") Long taskId);
 
 }

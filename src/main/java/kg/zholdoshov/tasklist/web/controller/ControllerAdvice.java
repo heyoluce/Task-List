@@ -67,11 +67,13 @@ public class ControllerAdvice {
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionBody handleAuthException(AuthenticationException e) {
+        e.printStackTrace();
         return new ExceptionBody("Auth failed");
     }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionBody handleException(Exception e) {
-        return new ExceptionBody("Internal error");
+        return new ExceptionBody("Shit error");
     }
 }
