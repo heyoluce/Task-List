@@ -1,25 +1,23 @@
 package kg.zholdoshov.tasklist.repository;
 
-import kg.zholdoshov.tasklist.domain.user.Role;
 import kg.zholdoshov.tasklist.domain.user.User;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-@Mapper
-public interface UserRepository {
-    Optional<User> findById(Long id);
+
+public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
 
-    void update(User user);
-    void create(User user);
-
-    void delete(Long id);
-
-    void insertUserRole(@Param("userId") Long userId, @Param("role") Role role);
-
+    @Query(value = """
+            SELECT 1 
+            FROM users_tasks
+            WHERE user_id = :userId
+                And task_id= :taskId
+            """, nativeQuery = true)
     boolean isTaskOwner(@Param("userId") Long userId, @Param("taskId") Long taskId);
 
 }

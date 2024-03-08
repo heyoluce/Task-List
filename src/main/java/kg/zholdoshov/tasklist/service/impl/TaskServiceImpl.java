@@ -3,8 +3,10 @@ package kg.zholdoshov.tasklist.service.impl;
 import kg.zholdoshov.tasklist.domain.exception.ResourceNotFoundException;
 import kg.zholdoshov.tasklist.domain.task.Status;
 import kg.zholdoshov.tasklist.domain.task.Task;
+import kg.zholdoshov.tasklist.domain.user.User;
 import kg.zholdoshov.tasklist.repository.TaskRepository;
 import kg.zholdoshov.tasklist.service.TaskService;
+import kg.zholdoshov.tasklist.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -18,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
+    private final UserService userService;
 
     @Override
     @Transactional(readOnly = true)
@@ -39,22 +42,24 @@ public class TaskServiceImpl implements TaskService {
         if (task.getStatus() == null) {
             task.setStatus(Status.TODO);
         }
-        taskRepository.update(task);
+        taskRepository.save(task);
         return task;
     }
 
     @Override
     @Cacheable(value = "TaskService::getById", key = "#task.id")
     public Task create(Task task, Long userId) {
+        User user = userService.getById(userId);
+
         task.setStatus(Status.TODO);
-        taskRepository.create(task);
-        taskRepository.assignToUserById(task.getId(), userId);
+        user.getTasks().add(task);
+        userService.update(user);
         return task;
     }
 
     @Override
     @CacheEvict(value = "TaskService::getById", key = "#id")
     public void delete(Long id) {
-        taskRepository.delete(id);
+        taskRepository.deleteById(id);
     }
 }

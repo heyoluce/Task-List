@@ -6,12 +6,12 @@ spring:
     cache-names: redis-cache
   data:
     redis:
-      host: ${REDIS_HOST}
+      host: localhost #${REDIS_HOST}
       port: 6379
       password: ${REDIS_PASSWORD}
 
   datasource:
-    url: jdbc:postgresql://${HOST}:5432/${POSTGRES_DATABASE}?currentSchema=${POSTGRES_SCHEMA}
+    url: jdbc:postgresql://localhost:5432/${POSTGRES_DATABASE}?currentSchema=${POSTGRES_SCHEMA}
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -22,14 +22,11 @@ spring:
     enabled: true
     default-schema: tasklist
 
+
 security:
     jwt:
       secret: ${JWT_SECRET}
       access: 1
       refresh: 30
-
-mybatis:
-  mapper-locations: classpath:/mybatis/mapper/*.xml
-
 springdoc:
   override-with-generic-response: false

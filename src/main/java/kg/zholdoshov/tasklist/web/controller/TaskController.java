@@ -3,8 +3,10 @@ package kg.zholdoshov.tasklist.web.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.zholdoshov.tasklist.domain.task.Task;
+import kg.zholdoshov.tasklist.domain.task.TaskImage;
 import kg.zholdoshov.tasklist.service.TaskService;
 import kg.zholdoshov.tasklist.web.dto.task.TaskDto;
+import kg.zholdoshov.tasklist.web.dto.task.TaskImageDto;
 import kg.zholdoshov.tasklist.web.dto.validation.OnUpdate;
 import kg.zholdoshov.tasklist.web.mappers.TaskMapper;
 import lombok.RequiredArgsConstructor;
@@ -48,4 +50,14 @@ public class TaskController {
     public void deleteById(@PathVariable("taskId") Long id) {
         taskService.delete(id);
     }
+
+    @PostMapping("/{id}/image")
+    @Operation(summary = "Upload image to task")
+    @PreAuthorize("canAccessTask(#id)")
+    public void uploadImage(@PathVariable Long id,
+                            @Validated @ModelAttribute TaskImageDto imageDto) {
+        TaskImage image = taskImageMapper.toEntity(imageDto);
+        taskService.uploadImage(id, image);
+    }
+
 }
