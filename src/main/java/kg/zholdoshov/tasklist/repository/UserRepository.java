@@ -13,11 +13,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
     @Query(value = """
-            SELECT 1 
-            FROM users_tasks
-            WHERE user_id = :userId
-                And task_id= :taskId
-            """, nativeQuery = true)
-    boolean isTaskOwner(@Param("userId") Long userId, @Param("taskId") Long taskId);
+            SELECT exists(
+                                SELECT 1
+                                FROM users_tasks
+                                WHERE user_id = :userId
+                                  AND task_id = :taskId)
+                 """, nativeQuery = true)
+    boolean isTaskOwner(@Param("userId") Long userId,
+                        @Param("taskId") Long taskId);
 
 }

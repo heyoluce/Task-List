@@ -1,17 +1,11 @@
 package kg.zholdoshov.tasklist.web.mappers;
 
-import kg.zholdoshov.tasklist.web.dto.task.TaskDto;
 import kg.zholdoshov.tasklist.domain.task.Task;
+import kg.zholdoshov.tasklist.web.dto.task.TaskDto;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
-public interface TaskMapper {
+public interface TaskMapper extends Mappable<Task, TaskDto> {
 
-    TaskDto toDto(Task task);
 
-    List<TaskDto> toDto(List<Task> tasks);
-
-    Task toEntity(TaskDto dto);
 }
