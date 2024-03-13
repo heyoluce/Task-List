@@ -35,7 +35,7 @@ public class UserController {
     @PutMapping
     @Operation(summary = "Update user")
     @PreAuthorize("@customSecurityExpression.canAccessUser(#userDto.id)")
-    public UserDto update(@Validated(OnUpdate.class)
+    public UserDto update(final @Validated(OnUpdate.class)
                           @RequestBody UserDto userDto) {
         User user = userMapper.toEntity(userDto);
         User updatedUser = userService.update(user);
@@ -45,7 +45,7 @@ public class UserController {
     @GetMapping("/{id}")
     @Operation(summary = "Get user by id")
     @PreAuthorize("@customSecurityExpression.canAccessUser(#id)")
-    public UserDto getById(@PathVariable Long id) {
+    public UserDto getById(final @PathVariable Long id) {
         User user = userService.getById(id);
         return userMapper.toDto(user);
     }
@@ -53,14 +53,14 @@ public class UserController {
     @DeleteMapping("{id}")
     @Operation(summary = "Delete user")
     @PreAuthorize("@customSecurityExpression.canAccessUser(#id)")
-    public void deleteById(@PathVariable Long id) {
+    public void deleteById(final @PathVariable Long id) {
         userService.delete(id);
     }
 
     @GetMapping("/{id}/tasks")
     @Operation(summary = "Get user tasks")
     @PreAuthorize("@customSecurityExpression.canAccessUser(#id)")
-    public List<TaskDto> getTasksByUserId(@PathVariable Long id) {
+    public List<TaskDto> getTasksByUserId(final @PathVariable Long id) {
         List<Task> tasks = taskService.getAllByUserId(id);
         return taskMapper.toDto(tasks);
     }
@@ -68,9 +68,8 @@ public class UserController {
     @PostMapping("/{id}/tasks")
     @Operation(summary = "Add user's task")
     @PreAuthorize("@customSecurityExpression.canAccessUser(#id)")
-    public TaskDto createTask(@PathVariable Long id,
-                              @Validated(OnCreate.class)
-                              @RequestBody TaskDto taskDto) {
+    public TaskDto createTask(final @PathVariable Long id,
+                              @Validated(OnCreate.class) final @RequestBody TaskDto taskDto) {
         Task task = taskMapper.toEntity(taskDto);
         Task createdTask = taskService.create(task, id);
         return taskMapper.toDto(createdTask);

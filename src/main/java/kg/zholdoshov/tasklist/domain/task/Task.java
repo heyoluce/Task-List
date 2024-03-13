@@ -1,5 +1,6 @@
 package kg.zholdoshov.tasklist.domain.task;
 
+
 import jakarta.persistence.*;
 import lombok.Data;
 

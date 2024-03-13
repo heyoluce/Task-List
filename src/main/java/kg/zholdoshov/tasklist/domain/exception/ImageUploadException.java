@@ -6,7 +6,7 @@ public class ImageUploadException extends RuntimeException {
         super();
     }
 
-    public ImageUploadException(String m) {
+    public ImageUploadException(final String m) {
         super(m);
     }
 

@@ -18,6 +18,7 @@ public class User implements Serializable {
     private Long id;
 
     private String name;
+
     private String username;
     private String password;
 
@@ -31,6 +32,7 @@ public class User implements Serializable {
     private Set<Role> roles;
 
     @OneToMany
-    @JoinTable(name = "users_tasks", inverseJoinColumns = @JoinColumn(name = "task_id"))
+    @JoinTable(name = "users_tasks",
+            inverseJoinColumns = @JoinColumn(name = "task_id"))
     private List<Task> tasks;
 }
