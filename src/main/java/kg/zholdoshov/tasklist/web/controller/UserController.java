@@ -15,7 +15,14 @@ import kg.zholdoshov.tasklist.web.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -60,7 +67,8 @@ public class UserController {
     @GetMapping("/{id}/tasks")
     @Operation(summary = "Get user tasks")
     @PreAuthorize("@customSecurityExpression.canAccessUser(#id)")
-    public List<TaskDto> getTasksByUserId(final @PathVariable Long id) {
+    public List<TaskDto> getTasksByUserId(
+            final @PathVariable Long id) {
         List<Task> tasks = taskService.getAllByUserId(id);
         return taskMapper.toDto(tasks);
     }
@@ -69,7 +77,8 @@ public class UserController {
     @Operation(summary = "Add user's task")
     @PreAuthorize("@customSecurityExpression.canAccessUser(#id)")
     public TaskDto createTask(final @PathVariable Long id,
-                              @Validated(OnCreate.class) final @RequestBody TaskDto taskDto) {
+                              @Validated(OnCreate.class)
+                              final @RequestBody TaskDto taskDto) {
         Task task = taskMapper.toEntity(taskDto);
         Task createdTask = taskService.create(task, id);
         return taskMapper.toDto(createdTask);
