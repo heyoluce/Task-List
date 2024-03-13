@@ -22,6 +22,7 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "UserService::getById", key = "#id")

@@ -35,6 +35,7 @@ public class JwtTokenProvider {
     private final UserDetailsService userDetailsService;
     private final UserService userService;
     private Key key;
+
     @PostConstruct
     public void init() {
         this.key = Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes());
@@ -89,7 +90,7 @@ public class JwtTokenProvider {
     }
 
     public boolean validateToken(String token) {
-        Jws<Claims> claims= Jwts
+        Jws<Claims> claims = Jwts
                 .parserBuilder()
                 .setSigningKey(key)
                 .build()

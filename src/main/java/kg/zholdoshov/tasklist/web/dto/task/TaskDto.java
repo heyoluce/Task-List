@@ -19,10 +19,10 @@ public class TaskDto {
     private Long id;
 
     @NotNull(message = "Title must be not null", groups = {OnUpdate.class, OnCreate.class})
-    @Length(max=255, message = "Name length must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class})
+    @Length(max = 255, message = "Name length must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class})
     private String title;
 
-    @Length(max=255, message = "Description length must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class})
+    @Length(max = 255, message = "Description length must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class})
     private String description;
 
     private Status status;

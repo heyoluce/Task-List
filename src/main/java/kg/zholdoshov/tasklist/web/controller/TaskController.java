@@ -8,6 +8,7 @@ import kg.zholdoshov.tasklist.service.TaskService;
 import kg.zholdoshov.tasklist.web.dto.task.TaskDto;
 import kg.zholdoshov.tasklist.web.dto.task.TaskImageDto;
 import kg.zholdoshov.tasklist.web.dto.validation.OnUpdate;
+import kg.zholdoshov.tasklist.web.mappers.TaskImageMapper;
 import kg.zholdoshov.tasklist.web.mappers.TaskMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +24,8 @@ public class TaskController {
     private final TaskService taskService;
 
     private final TaskMapper taskMapper;
+
+    private final TaskImageMapper taskImageMapper;
 
     @PutMapping
     @Operation(summary = "Update task")
@@ -53,7 +56,7 @@ public class TaskController {
 
     @PostMapping("/{id}/image")
     @Operation(summary = "Upload image to task")
-    @PreAuthorize("canAccessTask(#id)")
+    @PreAuthorize("@customSecurityExpression.canAccessTask(#id)")
     public void uploadImage(@PathVariable Long id,
                             @Validated @ModelAttribute TaskImageDto imageDto) {
         TaskImage image = taskImageMapper.toEntity(imageDto);

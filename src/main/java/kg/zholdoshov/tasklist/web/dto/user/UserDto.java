@@ -17,12 +17,12 @@ public class UserDto {
 
     @Schema(description = "User name", example = "John Doe")
     @NotNull(message = "Name must be not null", groups = {OnCreate.class, OnUpdate.class})
-    @Length(max=255, message = "Name length must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class})
+    @Length(max = 255, message = "Name length must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class})
     private String name;
 
     @Schema(description = "User email", example = "johndoe@gmail.com")
     @NotNull(message = "Name must be not null", groups = {OnCreate.class, OnUpdate.class})
-    @Length(max=255, message = "Name length must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class})
+    @Length(max = 255, message = "Name length must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class})
     private String username;
 
     @Schema(description = "User password", example = "password")
@@ -33,6 +33,4 @@ public class UserDto {
     @Schema(description = "User password confirmation", example = "password")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String passwordConfirmation;
-
-
 }

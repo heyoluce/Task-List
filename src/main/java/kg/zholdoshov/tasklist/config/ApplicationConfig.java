@@ -1,10 +1,12 @@
 package kg.zholdoshov.tasklist.config;
 
+import io.minio.MinioClient;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import kg.zholdoshov.tasklist.service.props.MinioProperties;
 import kg.zholdoshov.tasklist.web.security.JwtTokenFilter;
 import kg.zholdoshov.tasklist.web.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,16 @@ public class ApplicationConfig {
 
     private final ApplicationContext applicationContext;
     private final JwtTokenProvider jwtTokenProvider;
+    private final MinioProperties minioProperties;
+
+    @Bean
+    public MinioClient minioClient() {
+        return MinioClient.builder()
+                .endpoint(minioProperties.getUrl())
+                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .build();
+    }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -89,4 +101,5 @@ public class ApplicationConfig {
                 );
 
     }
+
 }

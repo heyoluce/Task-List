@@ -61,7 +61,7 @@ public class UserController {
     @Operation(summary = "Get user tasks")
     @PreAuthorize("@customSecurityExpression.canAccessUser(#id)")
     public List<TaskDto> getTasksByUserId(@PathVariable Long id) {
-        List<Task> tasks= taskService.getAllByUserId(id);
+        List<Task> tasks = taskService.getAllByUserId(id);
         return taskMapper.toDto(tasks);
     }
 

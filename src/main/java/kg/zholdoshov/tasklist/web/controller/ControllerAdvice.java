@@ -2,10 +2,7 @@ package kg.zholdoshov.tasklist.web.controller;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import kg.zholdoshov.tasklist.domain.exception.AccessDeniedException;
-import kg.zholdoshov.tasklist.domain.exception.ExceptionBody;
-import kg.zholdoshov.tasklist.domain.exception.ResourceMappingException;
-import kg.zholdoshov.tasklist.domain.exception.ResourceNotFoundException;
+import kg.zholdoshov.tasklist.domain.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
@@ -43,10 +40,11 @@ public class ControllerAdvice {
     public ExceptionBody handleAccessDenied() {
         return new ExceptionBody("Access denied");
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionBody handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        ExceptionBody exceptionBody= new ExceptionBody("Validation failed");
+        ExceptionBody exceptionBody = new ExceptionBody("Validation failed");
         List<FieldError> errors = e.getBindingResult().getFieldErrors();
         exceptionBody.setErrors(errors.stream()
                 .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage)));
@@ -75,6 +73,13 @@ public class ControllerAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionBody handleException(Exception e) {
+        e.printStackTrace();
         return new ExceptionBody("Internal error");
+    }
+
+    @ExceptionHandler(ImageUploadException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionBody handleImageUpload(ImageUploadException e) {
+        return new ExceptionBody(e.getMessage());
     }
 }
